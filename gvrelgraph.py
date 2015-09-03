@@ -476,6 +476,22 @@ class RelGraphReport(Report):
                 if d_place:
                     label += '%s' % d_place
                 label += ')'
+        # add occupation
+        if self.includeid == 1: # same line
+            label += " (%s)" % p_id
+        elif self.includeid == 2: # own line
+            label += "%s(%s)" % (lineDelimiter, p_id)
+        event_refs = person.get_primary_event_ref_list()
+        events = [event for event in
+                    [self.database.get_event_from_handle(ref.ref) for ref in event_refs]
+                    if event.get_type() == EventType(EventType.OCCUPATION)]
+        if len(events) > 0:
+            events.sort(key=lambda x: x.get_date_object())
+            occupation = events[-1].get_description()
+            if occupation:
+                label += "%s" % occupation
+        
+
 
         if self.increlname and self.center_person != person:
             # display relationship info
