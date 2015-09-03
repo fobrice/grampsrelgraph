@@ -489,7 +489,7 @@ class RelGraphReport(Report):
             events.sort(key=lambda x: x.get_date_object())
             occupation = events[-1].get_description()
             if occupation:
-                label += "%s" % occupation
+                label += "%s%s" % (lineDelimiter,occupation)
         
 
 
